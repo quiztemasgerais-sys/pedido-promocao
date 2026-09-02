@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitação de Promoção</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-image: url('https://i.ibb.co/1t5jWg9F/Gemini-Generated-Image-hm2tg4hm2tg4hm2t.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px 20px 80px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.96);
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      color: #1a1a1a;
+      margin-top: 0;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+      background: #ffffff;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #28a745;
+    }
+
+    textarea {
+      height: 90px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .error {
+      color: #dc3545;
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .status {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+      min-height: 20px;
+    }
+
+    .whatsapp-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      padding: 12px 15px;
+      text-align: center;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .whatsapp-footer a {
+      color: #128c7e;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .whatsapp-footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h2>Pedir Promoção 🛒</h2>
+
+    <form id="promoForm">
+
+      <div class="form-group">
+        <label for="nome">Seu Nome (Opcional):</label>
+        <input
+          type="text"
+          id="nome"
+          name="nome"
+          maxlength="150"
+          placeholder="Ex: Maria Silva">
+      </div>
+
+      <div class="form-group">
+        <label for="descricao">O que você está procurando? *</label>
+        <textarea
+          id="descricao"
+          name="descricao"
+          maxlength="2000"
+          required
+          placeholder="Ex: Quero uma TV 50 polegadas 4K de até R$ 2.000"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="link">Link do Produto (Shopee, Mercado Livre, Amazon):</label>
+        <input
+          type="text"
+          id="link"
+          name="link"
+          placeholder="https://...">
+
+        <div id="linkError" class="error">
+          Por favor, insira apenas links válidos da Shopee, Mercado Livre ou Amazon.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="imagem">Foto/Print do Produto (Opcional):</label>
+        <input
+          type="file"
+          id="imagem"
+          name="imagem"
+          accept="image/*">
+
+        <div id="imgError" class="error">
+          Apenas arquivos de imagem são permitidos.
+        </div>
+      </div>
+
+      <button type="submit" id="btnSubmit">
+        Enviar Pedido
+      </button>
+
+      <div id="status" class="status"></div>
+    </form>
+  </div>
+
+  <div class="whatsapp-footer">
+    <a
+      href="https://wa.me/555193371154?text=Ol%C3%A1%21%20Preciso%20de%20ajuda%20com%20o%20sistema%20de%20pedidos."
+      target="_blank"
+      rel="noopener noreferrer">
+      💬 Dúvidas ou Erros? Fale comigo no WhatsApp:
+      <strong>+55 (51) 9337-1154</strong>
+    </a>
+  </div>
+
+  <script>
+    const form = document.getElementById('promoForm');
+
+    form.addEventListener('submit', enviarFormulario);
+
+    function validarLink(url) {
+      if (!url) return true;
+
+      const regex =
+        /^(https?:\/\/)?([a-z0-9-\.]+\.)?(shopee\.com\.br|mercadolivre\.com\.br|mercadolibre\.com|amazon\.com\.br|amzn\.to|s\.shopee\.com\.br)(\/.*)?$/i;
+
+      return regex.test(url);
+    }
+
+    function comprimirImagem(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+          const img = new Image();
+
+          img.onload = function() {
+            const MAX_DIMENSAO = 1600;
+
+            let largura = img.width;
+            let altura = img.height;
+
+            if (largura > MAX_DIMENSAO || altura > MAX_DIMENSAO) {
+              const proporcao = Math.min(
+                MAX_DIMENSAO / largura,
+                MAX_DIMENSAO / altura
+              );
+
+              largura = Math.round(largura * proporcao);
+              altura = Math.round(altura * proporcao);
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = largura;
+            canvas.height = altura;
+
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(
+              img,
+              0,
+              0,
+              largura,
+              altura
+            );
+
+            const imagemComprimida = canvas.toDataURL(
+              'image/jpeg',
+              0.78
+            );
+
+            resolve(imagemComprimida);
+          };
+
+          img.onerror = function() {
+            reject(new Error('Não foi possível processar a imagem.'));
+          };
+
+          img.src = event.target.result;
+        };
+
+        reader.onerror = function() {
+          reject(new Error('Não foi possível ler a imagem.'));
+        };
+
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function enviarFormulario(event) {
+      event.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const descricao = document.getElementById('descricao').value.trim();
+      const link = document.getElementById('link').value.trim();
+
+      const imagemInput = document.getElementById('imagem');
+
+      const linkError = document.getElementById('linkError');
+      const imgError = document.getElementById('imgError');
+
+      const btnSubmit = document.getElementById('btnSubmit');
+      const status = document.getElementById('status');
+
+      linkError.style.display = 'none';
+      imgError.style.display = 'none';
+
+      status.innerText = '';
+
+      if (!descricao) {
+        status.style.color = '#dc3545';
+        status.innerText = 'Informe o que você está procurando.';
+        return;
+      }
+
+      if (link && !validarLink(link)) {
+        linkError.style.display = 'block';
+        return;
+      }
+
+      btnSubmit.disabled = true;
+
+      try {
+        let imagemBase64 = null;
+        let imagemNome = null;
+
+        if (imagemInput.files.length > 0) {
+          const file = imagemInput.files[0];
+
+          if (!file.type.startsWith('image/')) {
+            imgError.innerText = 'Apenas arquivos de imagem são permitidos.';
+            imgError.style.display = 'block';
+            return;
+          }
+
+          status.style.color = '#333';
+          status.innerText = 'Otimizando imagem...';
+
+          imagemBase64 = await comprimirImagem(file);
+
+          imagemNome =
+            'pedido_' +
+            Date.now() +
+            '.jpg';
+
+          const tamanhoEstimado =
+            (imagemBase64.length * 3) / 4;
+
+          if (tamanhoEstimado > 5 * 1024 * 1024) {
+            imgError.innerText = 'A imagem ficou maior que 5 MB.';
+            imgError.style.display = 'block';
+            return;
+          }
+        }
+
+        status.style.color = '#333';
+        status.innerText = 'Enviando pedido...';
+
+        const payload = {
+          nome: nome,
+          descricao: descricao,
+          link: link,
+          imagemBase64: imagemBase64,
+          imagemNome: imagemNome
+        };
+
+        const response = await fetch('/api/pedido', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        let resultado;
+
+        try {
+          resultado = await response.json();
+        } catch {
+          throw new Error('O servidor retornou uma resposta inválida.');
+        }
+
+        if (!response.ok) {
+          throw new Error(
+            resultado.message ||
+            'Não foi possível enviar o pedido.'
+          );
+        }
+
+        if (!resultado.success) {
+          throw new Error(
+            resultado.message ||
+            'Não foi possível enviar o pedido.'
+          );
+        }
+
+        status.style.color = '#28a745';
+        status.innerText = 'Pedido enviado com sucesso! ✅';
+
+        form.reset();
+
+      } catch (error) {
+        console.error(error);
+
+        status.style.color = '#dc3545';
+        status.innerText =
+          'Erro ao enviar: ' +
+          (error.message || 'Erro inesperado.');
+
+      } finally {
+        btnSubmit.disabled = false;
+      }
+    }
+  </script>
+
+</body>
+</html>
