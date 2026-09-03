@@ -19,7 +19,7 @@
       background-attachment: fixed;
       background-color: #f0f2f5;
       margin: 0;
-      padding: 20px 20px 80px 20px;
+      padding: 20px 20px 85px 20px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -110,7 +110,8 @@
       margin-top: 15px;
       text-align: center;
       font-weight: bold;
-      min-height: 20px;
+      min-height: 22px;
+      line-height: 1.4;
     }
 
     .whatsapp-footer {
@@ -140,6 +141,31 @@
 
     .whatsapp-footer a:hover {
       text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 15px 15px 75px 15px;
+        align-items: flex-start;
+      }
+
+      .card {
+        padding: 22px;
+        border-radius: 14px;
+        margin-top: 10px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      .whatsapp-footer {
+        padding: 8px 10px;
+      }
+
+      .whatsapp-footer a {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
@@ -190,7 +216,8 @@
           type="file"
           id="imagem"
           name="imagem"
-          accept="image/*">
+          accept="image/*"
+          capture="environment">
 
         <div id="imgError" class="error">
           Apenas arquivos de imagem são permitidos.
@@ -223,10 +250,34 @@
     function validarLink(url) {
       if (!url) return true;
 
-      const regex =
-        /^(https?:\/\/)?([a-z0-9-\.]+\.)?(shopee\.com\.br|mercadolivre\.com\.br|mercadolibre\.com|amazon\.com\.br|amzn\.to|s\.shopee\.com\.br)(\/.*)?$/i;
+      let endereco = String(url).trim().toLowerCase();
 
-      return regex.test(url);
+      endereco = endereco.replace(/^https?:\/\//i, '');
+
+      const host = endereco
+        .split('/')[0]
+        .split('?')[0]
+        .split('#')[0];
+
+      const dominiosPermitidos = [
+        'shopee.com.br',
+        's.shopee.com.br',
+        'shope.ee',
+        'mercadolivre.com.br',
+        'mercadolibre.com',
+        'meli.la',
+        'amazon.com.br',
+        'amazon.com',
+        'amzn.to',
+        'a.co'
+      ];
+
+      return dominiosPermitidos.some(function(dominio) {
+        return (
+          host === dominio ||
+          host.endsWith('.' + dominio)
+        );
+      });
     }
 
     function comprimirImagem(file) {
@@ -242,7 +293,10 @@
             let largura = img.width;
             let altura = img.height;
 
-            if (largura > MAX_DIMENSAO || altura > MAX_DIMENSAO) {
+            if (
+              largura > MAX_DIMENSAO ||
+              altura > MAX_DIMENSAO
+            ) {
               const proporcao = Math.min(
                 MAX_DIMENSAO / largura,
                 MAX_DIMENSAO / altura
@@ -253,6 +307,7 @@
             }
 
             const canvas = document.createElement('canvas');
+
             canvas.width = largura;
             canvas.height = altura;
 
@@ -275,14 +330,18 @@
           };
 
           img.onerror = function() {
-            reject(new Error('Não foi possível processar a imagem.'));
+            reject(
+              new Error('Não foi possível processar a imagem.')
+            );
           };
 
           img.src = event.target.result;
         };
 
         reader.onerror = function() {
-          reject(new Error('Não foi possível ler a imagem.'));
+          reject(
+            new Error('Não foi possível ler a imagem.')
+          );
         };
 
         reader.readAsDataURL(file);
@@ -297,12 +356,15 @@
       const link = document.getElementById('link').value.trim();
 
       const imagemInput = document.getElementById('imagem');
-
       const linkError = document.getElementById('linkError');
       const imgError = document.getElementById('imgError');
 
       const btnSubmit = document.getElementById('btnSubmit');
       const status = document.getElementById('status');
+
+      if (btnSubmit.disabled) {
+        return;
+      }
 
       linkError.style.display = 'none';
       imgError.style.display = 'none';
@@ -321,6 +383,7 @@
       }
 
       btnSubmit.disabled = true;
+      btnSubmit.innerText = 'Enviando...';
 
       try {
         let imagemBase64 = null;
@@ -330,13 +393,14 @@
           const file = imagemInput.files[0];
 
           if (!file.type.startsWith('image/')) {
-            imgError.innerText = 'Apenas arquivos de imagem são permitidos.';
+            imgError.innerText =
+              'Apenas arquivos de imagem são permitidos.';
             imgError.style.display = 'block';
             return;
           }
 
           status.style.color = '#333';
-          status.innerText = 'Otimizando imagem...';
+          status.innerText = 'Preparando a imagem...';
 
           imagemBase64 = await comprimirImagem(file);
 
@@ -349,14 +413,15 @@
             (imagemBase64.length * 3) / 4;
 
           if (tamanhoEstimado > 5 * 1024 * 1024) {
-            imgError.innerText = 'A imagem ficou maior que 5 MB.';
+            imgError.innerText =
+              'A imagem ficou maior que 5 MB.';
             imgError.style.display = 'block';
             return;
           }
         }
 
         status.style.color = '#333';
-        status.innerText = 'Enviando pedido...';
+        status.innerText = 'Enviando seu pedido...';
 
         const payload = {
           nome: nome,
@@ -379,7 +444,9 @@
         try {
           resultado = await response.json();
         } catch {
-          throw new Error('O servidor retornou uma resposta inválida.');
+          throw new Error(
+            'O servidor retornou uma resposta inválida.'
+          );
         }
 
         if (!response.ok) {
@@ -397,7 +464,8 @@
         }
 
         status.style.color = '#28a745';
-        status.innerText = 'Pedido enviado com sucesso! ✅';
+        status.innerText =
+          'Pedido enviado com sucesso! ✅ Em breve você receberá o retorno.';
 
         form.reset();
 
@@ -406,11 +474,11 @@
 
         status.style.color = '#dc3545';
         status.innerText =
-          'Erro ao enviar: ' +
-          (error.message || 'Erro inesperado.');
+          'Não foi possível enviar o pedido. Tente novamente em alguns instantes.';
 
       } finally {
         btnSubmit.disabled = false;
+        btnSubmit.innerText = 'Enviar Pedido';
       }
     }
   </script>
