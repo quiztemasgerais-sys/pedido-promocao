@@ -305,14 +305,14 @@
           type="text"
           id="link"
           name="link"
-          placeholder="https://..."
+          placeholder="Cole aqui o link ou texto compartilhado pela loja"
         >
 
         <div
           id="linkError"
           class="error"
         >
-          Informe um link válido da Shopee, Mercado Livre ou Amazon.
+          Não encontramos um link válido da Shopee, Mercado Livre ou Amazon.
         </div>
 
       </div>
@@ -386,6 +386,59 @@
     );
 
 
+    /*
+    =====================================
+    EXTRAI URL DE UM TEXTO
+    =====================================
+    */
+
+    function extrairUrl(texto) {
+
+      if (!texto) {
+        return '';
+      }
+
+      const valor =
+        String(texto).trim();
+
+      /*
+      Procura URL começando por http ou https
+      */
+
+      const resultado =
+        valor.match(
+          /https?:\/\/[^\s]+/i
+        );
+
+      if (resultado) {
+
+        return resultado[0]
+          .replace(/[),.;]+$/g, '')
+          .trim();
+      }
+
+      /*
+      Caso a pessoa cole somente o domínio
+      sem http
+      */
+
+      if (
+        /^[a-z0-9.-]+\.[a-z]{2,}\/?/i.test(valor)
+      ) {
+
+        return 'https://' + valor;
+      }
+
+      return '';
+    }
+
+
+    /*
+    =====================================
+    VALIDAÇÃO DOS LINKS
+    =====================================
+    */
+
     function validarLink(url) {
 
       if (!url) {
@@ -394,16 +447,18 @@
 
 
       let endereco =
-        String(url)
-          .trim()
-          .toLowerCase();
+        extrairUrl(url);
+
+
+      if (!endereco) {
+        return false;
+      }
 
 
       endereco =
-        endereco.replace(
-          /\s+/g,
-          ''
-        );
+        endereco
+          .trim()
+          .toLowerCase();
 
 
       endereco =
@@ -430,20 +485,33 @@
 
       const dominiosPermitidos = [
 
+        /*
+        SHOPEE
+        */
+
         'shopee.com.br',
         's.shopee.com.br',
         'shope.ee',
         'shp.ee',
+        'br.shp.ee',
+
+        /*
+        MERCADO LIVRE
+        */
 
         'mercadolivre.com.br',
         'mercadolibre.com',
         'meli.la',
 
+        /*
+        AMAZON
+        */
+
         'amazon.com.br',
         'amazon.com',
-        'link.amazon',
         'amzn.to',
-        'a.co'
+        'a.co',
+        'link.amazon'
 
       ];
 
@@ -452,20 +520,21 @@
         function(dominio) {
 
           return (
-
             host === dominio ||
-
             host.endsWith(
               '.' + dominio
             )
-
           );
-
         }
       );
     }
 
 
+    /*
+    =====================================
+    COMPRESSÃO DA IMAGEM
+    =====================================
+    */
 
     function comprimirImagem(file) {
 
@@ -527,7 +596,6 @@
                         altura *
                         proporcao
                       );
-
                   }
 
 
@@ -577,7 +645,6 @@
                   resolve(
                     imagemComprimida
                   );
-
                 };
 
 
@@ -589,13 +656,11 @@
                       'Não foi possível processar a imagem.'
                     )
                   );
-
                 };
 
 
               img.src =
                 event.target.result;
-
             };
 
 
@@ -607,19 +672,22 @@
                   'Não foi possível ler a imagem.'
                 )
               );
-
             };
 
 
           reader.readAsDataURL(
             file
           );
-
         }
       );
     }
 
 
+    /*
+    =====================================
+    ENVIO
+    =====================================
+    */
 
     async function enviarFormulario(
       event
@@ -646,7 +714,7 @@
           .trim();
 
 
-      const link =
+      const campoLink =
         document
           .getElementById(
             'link'
@@ -688,9 +756,7 @@
       if (
         btnSubmit.disabled
       ) {
-
         return;
-
       }
 
 
@@ -720,16 +786,31 @@
       }
 
 
-      if (
-        link &&
-        !validarLink(link)
-      ) {
+      /*
+      Extrai somente o link caso tenha vindo
+      nome do produto + URL
+      */
 
-        linkError.style.display =
-          'block';
+      let link = '';
+
+      if (campoLink) {
+
+        link =
+          extrairUrl(
+            campoLink
+          );
 
 
-        return;
+        if (
+          !link ||
+          !validarLink(link)
+        ) {
+
+          linkError.style.display =
+            'block';
+
+          return;
+        }
       }
 
 
@@ -750,7 +831,6 @@
 
         let imagemNome =
           null;
-
 
 
         if (
@@ -789,7 +869,6 @@
             'Preparando a imagem...';
 
 
-
           imagemBase64 =
             await comprimirImagem(
               file
@@ -800,7 +879,6 @@
             'pedido_' +
             Date.now() +
             '.jpg';
-
 
 
           const tamanhoEstimado =
@@ -825,9 +903,7 @@
 
             return;
           }
-
         }
-
 
 
         status.style.color =
@@ -836,7 +912,6 @@
 
         status.innerText =
           'Enviando seu pedido...';
-
 
 
         const payload = {
@@ -855,9 +930,7 @@
 
           imagemNome:
             imagemNome
-
         };
-
 
 
         const response =
@@ -874,18 +947,14 @@
 
                 'Content-Type':
                   'application/json'
-
               },
 
               body:
                 JSON.stringify(
                   payload
                 )
-
             }
-
           );
-
 
 
         let resultado;
@@ -901,9 +970,7 @@
           throw new Error(
             'O servidor retornou uma resposta inválida.'
           );
-
         }
-
 
 
         if (
@@ -917,9 +984,7 @@
             'Não foi possível enviar o pedido.'
 
           );
-
         }
-
 
 
         if (
@@ -933,9 +998,7 @@
             'Não foi possível enviar o pedido.'
 
           );
-
         }
-
 
 
         status.style.color =
@@ -947,7 +1010,6 @@
 
 
         form.reset();
-
 
 
       } catch (error) {
@@ -979,9 +1041,7 @@
 
         btnSubmit.innerText =
           'Enviar Pedido';
-
       }
-
     }
 
   </script>
