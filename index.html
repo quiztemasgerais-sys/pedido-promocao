@@ -324,12 +324,6 @@
           Foto/Print do Produto (Opcional):
         </label>
 
-        <!--
-          IMPORTANTE:
-          NÃO possui capture="environment".
-          Assim não força a abertura da câmera.
-        -->
-
         <input
           type="file"
           id="imagem"
@@ -392,12 +386,6 @@
     );
 
 
-    /*
-    ==============================================
-    VALIDAÇÃO DOS LINKS
-    ==============================================
-    */
-
     function validarLink(url) {
 
       if (!url) {
@@ -411,22 +399,12 @@
           .toLowerCase();
 
 
-      /*
-        Remove espaços ou quebras
-        eventualmente copiadas junto
-        com o endereço.
-      */
-
       endereco =
         endereco.replace(
           /\s+/g,
           ''
         );
 
-
-      /*
-        Remove protocolo.
-      */
 
       endereco =
         endereco.replace(
@@ -435,20 +413,12 @@
         );
 
 
-      /*
-        Remove www.
-      */
-
       endereco =
         endereco.replace(
           /^www\./i,
           ''
         );
 
-
-      /*
-        Obtém somente o domínio.
-      */
 
       const host =
         endereco
@@ -460,27 +430,14 @@
 
       const dominiosPermitidos = [
 
-        /*
-        SHOPEE
-        */
-
         'shopee.com.br',
         's.shopee.com.br',
         'shope.ee',
-
-
-        /*
-        MERCADO LIVRE
-        */
+        'shp.ee',
 
         'mercadolivre.com.br',
         'mercadolibre.com',
         'meli.la',
-
-
-        /*
-        AMAZON
-        */
 
         'amazon.com.br',
         'amazon.com',
@@ -508,12 +465,6 @@
     }
 
 
-
-    /*
-    ==============================================
-    COMPRESSÃO DA IMAGEM
-    ==============================================
-    */
 
     function comprimirImagem(file) {
 
@@ -669,12 +620,6 @@
 
 
 
-    /*
-    ==============================================
-    ENVIO DO FORMULÁRIO
-    ==============================================
-    */
-
     async function enviarFormulario(
       event
     ) {
@@ -739,10 +684,6 @@
         );
 
 
-      /*
-        Evita clique duplo.
-      */
-
       if (
         btnSubmit.disabled
       ) {
@@ -764,10 +705,6 @@
         '';
 
 
-      /*
-        Descrição obrigatória.
-      */
-
       if (!descricao) {
 
         status.style.color =
@@ -781,10 +718,6 @@
         return;
       }
 
-
-      /*
-        Validação do link.
-      */
 
       if (
         link &&
@@ -818,12 +751,6 @@
           null;
 
 
-
-        /*
-        ==============================================
-        IMAGEM
-        ==============================================
-        */
 
         if (
           imagemInput.files.length >
@@ -901,12 +828,6 @@
         }
 
 
-
-        /*
-        ==============================================
-        ENVIO PARA CLOUDFLARE
-        ==============================================
-        */
 
         status.style.color =
           '#333';
@@ -1016,12 +937,6 @@
 
 
 
-        /*
-        ==============================================
-        SUCESSO
-        ==============================================
-        */
-
         status.style.color =
           '#28a745';
 
@@ -1029,10 +944,6 @@
         status.innerText =
           'Pedido enviado com sucesso! ✅';
 
-
-        /*
-          Limpa os campos.
-        */
 
         form.reset();
 
@@ -1049,11 +960,6 @@
         status.style.color =
           '#dc3545';
 
-
-        /*
-          Mostra para nós o erro verdadeiro
-          retornado pelo backend.
-        */
 
         status.innerText =
           'Erro ao enviar: ' +
