@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solicitação de Promoção</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Pedir Promoção</title>
 
   <style>
     * {
@@ -12,82 +18,117 @@
     }
 
     body {
-      background-image: url('https://i.ibb.co/1t5jWg9F/Gemini-Generated-Image-hm2tg4hm2tg4hm2t.jpg');
+      margin: 0;
+      min-height: 100vh;
+
+      background-image:
+        url('https://i.ibb.co/GvKczv2N/fundo.png');
+
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
+
       background-color: #f0f2f5;
-      margin: 0;
+
       padding: 20px 20px 85px 20px;
+
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.96);
-      padding: 30px;
-      border-radius: 16px;
-      max-width: 500px;
       width: 100%;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      max-width: 500px;
+
+      background: rgba(255, 255, 255, 0.96);
+
+      padding: 30px;
+
+      border-radius: 16px;
+
+      box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.20);
     }
 
     h2 {
-      color: #1a1a1a;
       margin-top: 0;
+      margin-bottom: 28px;
+
       text-align: center;
-      font-size: 24px;
+
+      color: #111;
+
+      font-size: 28px;
     }
 
     .form-group {
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     label {
       display: block;
-      margin-bottom: 6px;
+
+      margin-bottom: 8px;
+
+      font-size: 16px;
       font-weight: 600;
-      color: #333;
-      font-size: 14px;
+
+      color: #222;
     }
 
     input[type="text"],
     textarea,
     input[type="file"] {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: border-color 0.2s;
+
+      padding: 13px 14px;
+
+      border: 1px solid #cfd4dc;
+      border-radius: 9px;
+
       background: #ffffff;
+
+      font-size: 16px;
+
+      color: #111;
     }
 
     input[type="text"]:focus,
-    textarea:focus {
+    textarea:focus,
+    input[type="file"]:focus {
       outline: none;
+
       border-color: #28a745;
+
+      box-shadow:
+        0 0 0 2px rgba(40, 167, 69, 0.10);
     }
 
     textarea {
-      height: 90px;
+      min-height: 110px;
       resize: vertical;
     }
 
     button {
       width: 100%;
-      padding: 14px;
-      background-color: #28a745;
-      color: white;
+
+      margin-top: 3px;
+
+      padding: 15px;
+
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 9px;
+
+      background-color: #28a745;
+
+      color: white;
+
+      font-size: 17px;
       font-weight: bold;
+
       cursor: pointer;
-      transition: background-color 0.2s;
     }
 
     button:hover {
@@ -95,48 +136,70 @@
     }
 
     button:disabled {
-      background-color: #cccccc;
+      background-color: #a7a7a7;
       cursor: not-allowed;
     }
 
     .error {
-      color: #dc3545;
-      font-size: 12px;
-      margin-top: 4px;
       display: none;
+
+      margin-top: 6px;
+
+      color: #dc3545;
+
+      font-size: 13px;
+      font-weight: 600;
     }
 
     .status {
-      margin-top: 15px;
-      text-align: center;
-      font-weight: bold;
       min-height: 22px;
+
+      margin-top: 18px;
+
+      text-align: center;
+
       line-height: 1.4;
+
+      font-size: 15px;
+      font-weight: bold;
     }
 
     .whatsapp-footer {
       position: fixed;
-      bottom: 0;
+
       left: 0;
+      bottom: 0;
+
       width: 100%;
-      background-color: #ffffff;
+
+      padding: 10px 15px;
+
+      background: #ffffff;
+
       border-top: 1px solid #e5e7eb;
-      padding: 12px 15px;
+
       text-align: center;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+
+      box-shadow:
+        0 -2px 10px rgba(0, 0, 0, 0.08);
+
       z-index: 1000;
     }
 
     .whatsapp-footer a {
-      color: #128c7e;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 15px;
       display: inline-flex;
+
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
+
+      gap: 6px;
+
+      color: #128c7e;
+
+      text-decoration: none;
+
+      font-size: 14px;
+      font-weight: bold;
     }
 
     .whatsapp-footer a:hover {
@@ -144,19 +207,35 @@
     }
 
     @media (max-width: 600px) {
+
       body {
-        padding: 15px 15px 75px 15px;
+        padding: 12px 12px 72px 12px;
+
         align-items: flex-start;
       }
 
       .card {
-        padding: 22px;
-        border-radius: 14px;
-        margin-top: 10px;
+        padding: 25px 22px;
+
+        margin-top: 0;
+
+        border-radius: 15px;
       }
 
       h2 {
-        font-size: 22px;
+        font-size: 27px;
+
+        margin-bottom: 27px;
+      }
+
+      label {
+        font-size: 16px;
+      }
+
+      input[type="text"],
+      textarea,
+      input[type="file"] {
+        font-size: 16px;
       }
 
       .whatsapp-footer {
@@ -170,318 +249,836 @@
   </style>
 </head>
 
+
 <body>
 
   <div class="card">
-    <h2>Pedir Promoção 🛒</h2>
+
+    <h2>
+      Pedir Promoção 🛒
+    </h2>
+
 
     <form id="promoForm">
 
       <div class="form-group">
-        <label for="nome">Seu Nome (Opcional):</label>
+
+        <label for="nome">
+          Seu Nome (Opcional):
+        </label>
+
         <input
           type="text"
           id="nome"
           name="nome"
           maxlength="150"
-          placeholder="Ex: Maria Silva">
+          placeholder="Ex: Giovanni"
+        >
+
       </div>
 
+
       <div class="form-group">
-        <label for="descricao">O que você está procurando? *</label>
+
+        <label for="descricao">
+          O que você está procurando? *
+        </label>
+
         <textarea
           id="descricao"
           name="descricao"
           maxlength="2000"
           required
-          placeholder="Ex: Quero uma TV 50 polegadas 4K de até R$ 2.000"></textarea>
+          placeholder="Ex: Quero uma TV 50 polegadas 4K"
+        ></textarea>
+
       </div>
 
+
       <div class="form-group">
-        <label for="link">Link do Produto (Shopee, Mercado Livre, Amazon):</label>
+
+        <label for="link">
+          Link do Produto (Shopee, Mercado Livre, Amazon):
+        </label>
+
         <input
           type="text"
           id="link"
           name="link"
-          placeholder="https://...">
+          placeholder="https://..."
+        >
 
-        <div id="linkError" class="error">
-          Por favor, insira apenas links válidos da Shopee, Mercado Livre ou Amazon.
+        <div
+          id="linkError"
+          class="error"
+        >
+          Informe um link válido da Shopee, Mercado Livre ou Amazon.
         </div>
+
       </div>
 
+
       <div class="form-group">
-        <label for="imagem">Foto/Print do Produto (Opcional):</label>
+
+        <label for="imagem">
+          Foto/Print do Produto (Opcional):
+        </label>
+
+        <!--
+          IMPORTANTE:
+          NÃO possui capture="environment".
+          Assim não força a abertura da câmera.
+        -->
+
         <input
           type="file"
           id="imagem"
           name="imagem"
           accept="image/*"
-          capture="environment">
+        >
 
-        <div id="imgError" class="error">
+        <div
+          id="imgError"
+          class="error"
+        >
           Apenas arquivos de imagem são permitidos.
         </div>
+
       </div>
 
-      <button type="submit" id="btnSubmit">
+
+      <button
+        type="submit"
+        id="btnSubmit"
+      >
         Enviar Pedido
       </button>
 
-      <div id="status" class="status"></div>
+
+      <div
+        id="status"
+        class="status"
+      ></div>
+
     </form>
+
   </div>
 
+
   <div class="whatsapp-footer">
+
     <a
       href="https://wa.me/555193371154?text=Ol%C3%A1%21%20Preciso%20de%20ajuda%20com%20o%20sistema%20de%20pedidos."
       target="_blank"
-      rel="noopener noreferrer">
-      💬 Dúvidas ou Erros? Fale comigo no WhatsApp:
-      <strong>+55 (51) 9337-1154</strong>
+      rel="noopener noreferrer"
+    >
+      💬 Dúvidas ou Erros? Fale comigo no WhatsApp
     </a>
+
   </div>
 
-  <script>
-    const form = document.getElementById('promoForm');
 
-    form.addEventListener('submit', enviarFormulario);
+  <script>
+
+    const form =
+      document.getElementById(
+        'promoForm'
+      );
+
+
+    form.addEventListener(
+      'submit',
+      enviarFormulario
+    );
+
+
+    /*
+    ==============================================
+    VALIDAÇÃO DOS LINKS
+    ==============================================
+    */
 
     function validarLink(url) {
-      if (!url) return true;
 
-      let endereco = String(url).trim().toLowerCase();
+      if (!url) {
+        return true;
+      }
 
-      endereco = endereco.replace(/^https?:\/\//i, '');
 
-      const host = endereco
-        .split('/')[0]
-        .split('?')[0]
-        .split('#')[0];
+      let endereco =
+        String(url)
+          .trim()
+          .toLowerCase();
+
+
+      /*
+        Remove espaços ou quebras
+        eventualmente copiadas junto
+        com o endereço.
+      */
+
+      endereco =
+        endereco.replace(
+          /\s+/g,
+          ''
+        );
+
+
+      /*
+        Remove protocolo.
+      */
+
+      endereco =
+        endereco.replace(
+          /^https?:\/\//i,
+          ''
+        );
+
+
+      /*
+        Remove www.
+      */
+
+      endereco =
+        endereco.replace(
+          /^www\./i,
+          ''
+        );
+
+
+      /*
+        Obtém somente o domínio.
+      */
+
+      const host =
+        endereco
+          .split('/')[0]
+          .split('?')[0]
+          .split('#')[0]
+          .split(':')[0];
+
 
       const dominiosPermitidos = [
+
+        /*
+        SHOPEE
+        */
+
         'shopee.com.br',
         's.shopee.com.br',
         'shope.ee',
+
+
+        /*
+        MERCADO LIVRE
+        */
+
         'mercadolivre.com.br',
         'mercadolibre.com',
         'meli.la',
+
+
+        /*
+        AMAZON
+        */
+
         'amazon.com.br',
         'amazon.com',
         'amzn.to',
         'a.co'
+
       ];
 
-      return dominiosPermitidos.some(function(dominio) {
-        return (
-          host === dominio ||
-          host.endsWith('.' + dominio)
-        );
-      });
+
+      return dominiosPermitidos.some(
+        function(dominio) {
+
+          return (
+
+            host === dominio ||
+
+            host.endsWith(
+              '.' + dominio
+            )
+
+          );
+
+        }
+      );
     }
+
+
+
+    /*
+    ==============================================
+    COMPRESSÃO DA IMAGEM
+    ==============================================
+    */
 
     function comprimirImagem(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
 
-        reader.onload = function(event) {
-          const img = new Image();
+      return new Promise(
+        function(resolve, reject) {
 
-          img.onload = function() {
-            const MAX_DIMENSAO = 1600;
+          const reader =
+            new FileReader();
 
-            let largura = img.width;
-            let altura = img.height;
 
-            if (
-              largura > MAX_DIMENSAO ||
-              altura > MAX_DIMENSAO
-            ) {
-              const proporcao = Math.min(
-                MAX_DIMENSAO / largura,
-                MAX_DIMENSAO / altura
+          reader.onload =
+            function(event) {
+
+              const img =
+                new Image();
+
+
+              img.onload =
+                function() {
+
+                  const MAX_DIMENSAO =
+                    1600;
+
+
+                  let largura =
+                    img.width;
+
+
+                  let altura =
+                    img.height;
+
+
+                  if (
+                    largura > MAX_DIMENSAO ||
+                    altura > MAX_DIMENSAO
+                  ) {
+
+                    const proporcao =
+                      Math.min(
+
+                        MAX_DIMENSAO /
+                        largura,
+
+                        MAX_DIMENSAO /
+                        altura
+
+                      );
+
+
+                    largura =
+                      Math.round(
+                        largura *
+                        proporcao
+                      );
+
+
+                    altura =
+                      Math.round(
+                        altura *
+                        proporcao
+                      );
+
+                  }
+
+
+                  const canvas =
+                    document.createElement(
+                      'canvas'
+                    );
+
+
+                  canvas.width =
+                    largura;
+
+
+                  canvas.height =
+                    altura;
+
+
+                  const ctx =
+                    canvas.getContext(
+                      '2d'
+                    );
+
+
+                  ctx.drawImage(
+
+                    img,
+
+                    0,
+                    0,
+
+                    largura,
+                    altura
+
+                  );
+
+
+                  const imagemComprimida =
+                    canvas.toDataURL(
+
+                      'image/jpeg',
+
+                      0.78
+
+                    );
+
+
+                  resolve(
+                    imagemComprimida
+                  );
+
+                };
+
+
+              img.onerror =
+                function() {
+
+                  reject(
+                    new Error(
+                      'Não foi possível processar a imagem.'
+                    )
+                  );
+
+                };
+
+
+              img.src =
+                event.target.result;
+
+            };
+
+
+          reader.onerror =
+            function() {
+
+              reject(
+                new Error(
+                  'Não foi possível ler a imagem.'
+                )
               );
 
-              largura = Math.round(largura * proporcao);
-              altura = Math.round(altura * proporcao);
-            }
+            };
 
-            const canvas = document.createElement('canvas');
 
-            canvas.width = largura;
-            canvas.height = altura;
-
-            const ctx = canvas.getContext('2d');
-
-            ctx.drawImage(
-              img,
-              0,
-              0,
-              largura,
-              altura
-            );
-
-            const imagemComprimida = canvas.toDataURL(
-              'image/jpeg',
-              0.78
-            );
-
-            resolve(imagemComprimida);
-          };
-
-          img.onerror = function() {
-            reject(
-              new Error('Não foi possível processar a imagem.')
-            );
-          };
-
-          img.src = event.target.result;
-        };
-
-        reader.onerror = function() {
-          reject(
-            new Error('Não foi possível ler a imagem.')
+          reader.readAsDataURL(
+            file
           );
-        };
 
-        reader.readAsDataURL(file);
-      });
+        }
+      );
     }
 
-    async function enviarFormulario(event) {
+
+
+    /*
+    ==============================================
+    ENVIO DO FORMULÁRIO
+    ==============================================
+    */
+
+    async function enviarFormulario(
+      event
+    ) {
+
       event.preventDefault();
 
-      const nome = document.getElementById('nome').value.trim();
-      const descricao = document.getElementById('descricao').value.trim();
-      const link = document.getElementById('link').value.trim();
 
-      const imagemInput = document.getElementById('imagem');
-      const linkError = document.getElementById('linkError');
-      const imgError = document.getElementById('imgError');
+      const nome =
+        document
+          .getElementById(
+            'nome'
+          )
+          .value
+          .trim();
 
-      const btnSubmit = document.getElementById('btnSubmit');
-      const status = document.getElementById('status');
 
-      if (btnSubmit.disabled) {
+      const descricao =
+        document
+          .getElementById(
+            'descricao'
+          )
+          .value
+          .trim();
+
+
+      const link =
+        document
+          .getElementById(
+            'link'
+          )
+          .value
+          .trim();
+
+
+      const imagemInput =
+        document.getElementById(
+          'imagem'
+        );
+
+
+      const linkError =
+        document.getElementById(
+          'linkError'
+        );
+
+
+      const imgError =
+        document.getElementById(
+          'imgError'
+        );
+
+
+      const btnSubmit =
+        document.getElementById(
+          'btnSubmit'
+        );
+
+
+      const status =
+        document.getElementById(
+          'status'
+        );
+
+
+      /*
+        Evita clique duplo.
+      */
+
+      if (
+        btnSubmit.disabled
+      ) {
+
         return;
+
       }
 
-      linkError.style.display = 'none';
-      imgError.style.display = 'none';
 
-      status.innerText = '';
+      linkError.style.display =
+        'none';
+
+
+      imgError.style.display =
+        'none';
+
+
+      status.innerText =
+        '';
+
+
+      /*
+        Descrição obrigatória.
+      */
 
       if (!descricao) {
-        status.style.color = '#dc3545';
-        status.innerText = 'Informe o que você está procurando.';
+
+        status.style.color =
+          '#dc3545';
+
+
+        status.innerText =
+          'Informe o que você está procurando.';
+
+
         return;
       }
 
-      if (link && !validarLink(link)) {
-        linkError.style.display = 'block';
+
+      /*
+        Validação do link.
+      */
+
+      if (
+        link &&
+        !validarLink(link)
+      ) {
+
+        linkError.style.display =
+          'block';
+
+
         return;
       }
 
-      btnSubmit.disabled = true;
-      btnSubmit.innerText = 'Enviando...';
+
+      btnSubmit.disabled =
+        true;
+
+
+      btnSubmit.innerText =
+        'Enviando...';
+
 
       try {
-        let imagemBase64 = null;
-        let imagemNome = null;
 
-        if (imagemInput.files.length > 0) {
-          const file = imagemInput.files[0];
 
-          if (!file.type.startsWith('image/')) {
+        let imagemBase64 =
+          null;
+
+
+        let imagemNome =
+          null;
+
+
+
+        /*
+        ==============================================
+        IMAGEM
+        ==============================================
+        */
+
+        if (
+          imagemInput.files.length >
+          0
+        ) {
+
+
+          const file =
+            imagemInput.files[0];
+
+
+          if (
+            !file.type.startsWith(
+              'image/'
+            )
+          ) {
+
             imgError.innerText =
               'Apenas arquivos de imagem são permitidos.';
-            imgError.style.display = 'block';
+
+
+            imgError.style.display =
+              'block';
+
+
             return;
           }
 
-          status.style.color = '#333';
-          status.innerText = 'Preparando a imagem...';
 
-          imagemBase64 = await comprimirImagem(file);
+          status.style.color =
+            '#333';
+
+
+          status.innerText =
+            'Preparando a imagem...';
+
+
+
+          imagemBase64 =
+            await comprimirImagem(
+              file
+            );
+
 
           imagemNome =
             'pedido_' +
             Date.now() +
             '.jpg';
 
-          const tamanhoEstimado =
-            (imagemBase64.length * 3) / 4;
 
-          if (tamanhoEstimado > 5 * 1024 * 1024) {
+
+          const tamanhoEstimado =
+            (
+              imagemBase64.length *
+              3
+            ) / 4;
+
+
+          if (
+            tamanhoEstimado >
+            5 * 1024 * 1024
+          ) {
+
             imgError.innerText =
-              'A imagem ficou maior que 5 MB.';
-            imgError.style.display = 'block';
+              'A imagem deve possuir no máximo 5 MB.';
+
+
+            imgError.style.display =
+              'block';
+
+
             return;
           }
+
         }
 
-        status.style.color = '#333';
-        status.innerText = 'Enviando seu pedido...';
+
+
+        /*
+        ==============================================
+        ENVIO PARA CLOUDFLARE
+        ==============================================
+        */
+
+        status.style.color =
+          '#333';
+
+
+        status.innerText =
+          'Enviando seu pedido...';
+
+
 
         const payload = {
-          nome: nome,
-          descricao: descricao,
-          link: link,
-          imagemBase64: imagemBase64,
-          imagemNome: imagemNome
+
+          nome:
+            nome,
+
+          descricao:
+            descricao,
+
+          link:
+            link,
+
+          imagemBase64:
+            imagemBase64,
+
+          imagemNome:
+            imagemNome
+
         };
 
-        const response = await fetch('/api/pedido', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
+
+
+        const response =
+          await fetch(
+
+            '/api/pedido',
+
+            {
+
+              method:
+                'POST',
+
+              headers: {
+
+                'Content-Type':
+                  'application/json'
+
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+
+            }
+
+          );
+
+
 
         let resultado;
 
+
         try {
-          resultado = await response.json();
-        } catch {
+
+          resultado =
+            await response.json();
+
+        } catch (erro) {
+
           throw new Error(
             'O servidor retornou uma resposta inválida.'
           );
+
         }
 
-        if (!response.ok) {
+
+
+        if (
+          !response.ok
+        ) {
+
           throw new Error(
+
             resultado.message ||
+
             'Não foi possível enviar o pedido.'
+
           );
+
         }
 
-        if (!resultado.success) {
+
+
+        if (
+          !resultado.success
+        ) {
+
           throw new Error(
+
             resultado.message ||
+
             'Não foi possível enviar o pedido.'
+
           );
+
         }
 
-        status.style.color = '#28a745';
+
+
+        /*
+        ==============================================
+        SUCESSO
+        ==============================================
+        */
+
+        status.style.color =
+          '#28a745';
+
+
         status.innerText =
-          'Pedido enviado com sucesso! ✅ Em breve você receberá o retorno.';
+          'Pedido enviado com sucesso! ✅';
+
+
+        /*
+          Limpa os campos.
+        */
 
         form.reset();
 
-      } catch (error) {
-        console.error(error);
 
-        status.style.color = '#dc3545';
+
+      } catch (error) {
+
+
+        console.error(
+          error
+        );
+
+
+        status.style.color =
+          '#dc3545';
+
+
+        /*
+          Mostra para nós o erro verdadeiro
+          retornado pelo backend.
+        */
+
         status.innerText =
-          'Não foi possível enviar o pedido. Tente novamente em alguns instantes.';
+          'Erro ao enviar: ' +
+          (
+            error.message ||
+            'Não foi possível enviar o pedido.'
+          );
+
 
       } finally {
-        btnSubmit.disabled = false;
-        btnSubmit.innerText = 'Enviar Pedido';
+
+
+        btnSubmit.disabled =
+          false;
+
+
+        btnSubmit.innerText =
+          'Enviar Pedido';
+
       }
+
     }
+
   </script>
 
 </body>
+
 </html>
